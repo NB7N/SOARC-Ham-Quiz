@@ -25,14 +25,6 @@ Check https://ncvec.org for any errata issued since this release. A question poo
 
 **Build logs are mandatory on every attempt:** the source folder creates `BUILD_LOGS\BUILD_YYYYMMDD_HHMMSS_mmm.log` for each build plus `BUILD_LOGS\BUILD_LATEST.log` for easy access. Every log includes stdout, stderr, build stages, and failures; the most recent log is updated on success or failure. Previous timestamped logs are preserved. If PowerShell itself fails before running, `BUILD_LATEST.log` will contain the Windows launcher failure information. Please send the complete log whenever reporting a build failure.
 
-1. Extract the **complete source ZIP** into one folder. Do not nest it inside previous releases.
-2. Double-click **BUILD RELEASE.bat** in the root.
-3. The script locates or prepares a compatible JDK, Android SDK command-line tools, Gradle, Python if needed, the current question pool JSON and the required figures. The **first build needs internet** to download missing vendor tools and question pools. Subsequent builds use cached tools and can use validated bundled pool data.
-4. The script reuses an existing signing identity under `%USERPROFILE%\.soarc-radio-suite\signing\org.soarc.hamquiz\`; a first build creates it. **Back up that directory.** If a key exists without matching credentials, the build stops instead of replacing it.
-5. If every step succeeds, the **RELEASE** folder contains signed installable APK, Play AAB, complete source ZIP, version metadata, README, UPDATES, checklist and checksums.
-
-Build requirements: Windows 10/11 x64, internet for initial download; allow the script to download the vendor toolchains. Application: Android 8.0+ (API 26). Android 15 target SDK, app version managed only by `version.properties`.
-
 If initial pool downloads fail, check your network and try again. The builder will NOT create an APK with an incomplete or stale sample question bank.
 
 ## Installing and saving data
