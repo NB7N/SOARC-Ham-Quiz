@@ -1,0 +1,51 @@
+# SOARC Ham Quiz — v0.1.1 Alpha
+
+**SOARC Radio Suite** — Native Android Amateur Radio Exam Prep for Technician, General, and Amateur Extra.
+
+**Copyright NB7N - Beaner Industries in Association with Jack Ruby Productions**
+
+## Features
+- Authentic NCVEC public-domain question pools, with corrections and withdrawn-question validation.
+- All four answers (A–D), FCC/NCVEC-style practice exams drawn one question from each question group.
+- Smart flashcards prioritizing new and missed questions, optional reveal, study drills, question search, exam results, topic progress, saved scores, and introductory study guide.
+- Figures bundled and shown inside questions that require them.
+- Four saved color themes: SOARC Green, Professional Light, Professional Dark, RF Amber.
+- Offline, local-only learner progress; no account, ads, internet permission or analytics.
+- Official SOARC logo provided for this project.
+
+## Current pools
+- Technician Element 2 — July 1, 2026 through June 30, 2030.
+- General Element 3 — July 1, 2023 through June 30, 2027.
+- Amateur Extra Element 4 — July 1, 2024 through June 30, 2028.
+
+Check https://ncvec.org for any errata issued since this release. A question pool's date range is not proof that no additional errata have been issued. Exams cannot be started outside the built-in pool's validity dates.
+
+## Build on Windows
+**Fixed in v0.1.1:** The Windows launcher no longer passes the `release.py --root` text as a single filename. It passes the script path as one argument, and `release.py` locates its own project directory. A separate Windows PowerShell log captures output before, during, and after Python starts.
+
+**Build logs are mandatory on every attempt:** the source folder creates `BUILD_LOGS\BUILD_YYYYMMDD_HHMMSS_mmm.log` for each build plus `BUILD_LOGS\BUILD_LATEST.log` for easy access. Every log includes stdout, stderr, build stages, and failures; the most recent log is updated on success or failure. Previous timestamped logs are preserved. If PowerShell itself fails before running, `BUILD_LATEST.log` will contain the Windows launcher failure information. Please send the complete log whenever reporting a build failure.
+
+1. Extract the **complete source ZIP** into one folder. Do not nest it inside previous releases.
+2. Double-click **BUILD RELEASE.bat** in the root.
+3. The script locates or prepares a compatible JDK, Android SDK command-line tools, Gradle, Python if needed, the current question pool JSON and the required figures. The **first build needs internet** to download missing vendor tools and question pools. Subsequent builds use cached tools and can use validated bundled pool data.
+4. The script reuses an existing signing identity under `%USERPROFILE%\.soarc-radio-suite\signing\org.soarc.hamquiz\`; a first build creates it. **Back up that directory.** If a key exists without matching credentials, the build stops instead of replacing it.
+5. If every step succeeds, the **RELEASE** folder contains signed installable APK, Play AAB, complete source ZIP, version metadata, README, UPDATES, checklist and checksums.
+
+Build requirements: Windows 10/11 x64, internet for initial download; allow the script to download the vendor toolchains. Application: Android 8.0+ (API 26). Android 15 target SDK, app version managed only by `version.properties`.
+
+If initial pool downloads fail, check your network and try again. The builder will NOT create an APK with an incomplete or stale sample question bank.
+
+## Installing and saving data
+Copy the signed `.apk` from RELEASE onto your Android phone, allow installation from that source, and install. Subsequent APK releases signed with the same key and higher versionCode install over the previous version and keep saved progress. Google Play submission uses the `.aab`, subject to Play's current target-SDK requirements. Progress and exam history are in Android private SharedPreferences and are normally removed if you uninstall the app. Device backup may restore them where enabled; there is not yet a manual export/import interface.
+
+## Source and attribution
+Current question pool authoritative publisher: NCVEC (https://ncvec.org/index.php/2026-2030-technician-question-pool for Technician, and https://ncvec.org for General and Extra); the publicly released exam questions are public domain. The project downloads the JSON conversion and diagrams from Russ Olsen's Apache-2.0 project: https://github.com/russolsen/ham_radio_question_pool. The converter's license is included in the attribution notes. Verify all changes against NCVEC before public distribution.
+
+This app is independently produced for SOARC and is not an FCC or NCVEC app, nor is it endorsed by those organizations.
+
+## Known alpha limitations
+- The full pools and diagrams are acquired by the Windows builder, not bundled in the initial source handoff until a successful refresh/build.
+- The study guide is introductory; question-by-question explanations, extra course content, and figure pinch-to-zoom are planned but not represented as completed features.
+- No cloud sync, test booking, lesson video, or in-app automatic new-pool updates.
+- On activity process death, the current unanswered practice exam is discarded; graded practice history remains saved.
+- Current tool runtime used to prepare this source lacks the Android SDK/Gradle and does not allow internet downloads. Compilation, signing, installation, real-device startup, and app UI smoke tests could not be completed here. Only source/static and local Python logic checks are claimed until a successful Windows build.
